@@ -2,7 +2,7 @@
 
 #### SHOWCASE
 
-
+<img src="./SHOWCASE.gif" width=400>
 
 #### GETTING STARTED
 
@@ -16,7 +16,7 @@ Run the following command in your terminal to get started
 
 COMPLETE EXAMPLE is [here](https://github.com/hashtag-mood/simple_date_picker/blob/main/example/lib/main.dart)
 
-*SET UP*
+<b>*SET UP*</b>
 
 Create an instance of SimpleDatePicker and [Records](https://dart.dev/language/records) for each picker
 
@@ -41,7 +41,7 @@ yearMonthDayRecord = simpleDatePicker.yearMonthDayPicker(
     );
 ```
 
-*EXAMPLE*
+<b>*EXAMPLE*</b>
 
 ```
 GestureDetector(
