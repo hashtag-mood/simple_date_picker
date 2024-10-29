@@ -2,7 +2,7 @@
 
 #### SHOWCASE
 
-<img src="./SHOWCASE.gif" width=400>
+<img src="https://raw.githubusercontent.com/hashtag-mood/simple_date_picker/refs/heads/main/SHOWCASE.gif" width=400>
 
 #### GETTING STARTED
 
