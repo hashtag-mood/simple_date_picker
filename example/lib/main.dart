@@ -148,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Align(
                   alignment: Alignment.center,
                   child: Text(
-                    yearMonthDateFormat(snapshot.data ?? DateTime.now()),
+                    yearDateFormat(snapshot.data ?? DateTime.now()),
                     style: TextStyle(fontSize: 20),
                   ),
                 );

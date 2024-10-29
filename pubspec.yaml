@@ -1,7 +1,7 @@
 name: simple_date_picker
-description: "SIMPLE DATE PICKER"
+description: "THREE types of Cupertino styled date pickers"
 version: 0.0.1
-homepage:
+homepage: https://github.com/hashtag-mood/simple_date_picker
 
 environment:
   sdk: ^3.5.3

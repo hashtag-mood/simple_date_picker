@@ -226,10 +226,4 @@ class _SimpleYearMonthPickerWidgetState extends State<SimpleYearMonthPickerWidge
       );
     });
   }
-
-  @override
-  void dispose() {
-    widget.controller.close();
-    super.dispose();
-  }
 }

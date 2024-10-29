@@ -46,16 +46,16 @@ class SimpleDatePicker {
         final Decoration? doneButtonDecoration,
       final String? doneButtonText,
       final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> broadcast = yearController.stream.asBroadcastStream();
+    Stream<DateTime> pickerStream = yearController.stream.asBroadcastStream();
     yearController.add(yearDateTime);
-    broadcast.listen((data) {
+    pickerStream.listen((data) {
       yearDateTime = data;
     });
     Future<void> pickerCallback() {
       return showSimpleYearPicker(
           context, barrierColor, yearController, yearDateTime);
     }
-    return (pickerCallback, broadcast);
+    return (pickerCallback, pickerStream);
   }
 
   (Function, Stream) yearMonthPicker(
@@ -87,16 +87,16 @@ class SimpleDatePicker {
         final Decoration? doneButtonDecoration,
       final String? doneButtonText,
       final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> broadcast = yearMonthController.stream.asBroadcastStream();
+    Stream<DateTime> pickerStream = yearMonthController.stream.asBroadcastStream();
     yearMonthController.add(yearMonthDateTime);
-    broadcast.listen((data) {
+    pickerStream.listen((data) {
       yearMonthDateTime = data;
     });
     Future<void> pickerCallback() {
       return showSimpleYearMonthPicker(
           context, barrierColor, yearMonthController, yearMonthDateTime);
     }
-    return (pickerCallback, broadcast);
+    return (pickerCallback, pickerStream);
   }
 
   (Function, Stream) yearMonthDayPicker(
@@ -130,16 +130,15 @@ class SimpleDatePicker {
         final Decoration? doneButtonDecoration,
       final String? doneButtonText,
       final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> broadcast = yearMonthDayController.stream.asBroadcastStream();
-
+    Stream<DateTime> pickerStream = yearMonthDayController.stream.asBroadcastStream();
     yearMonthDayController.add(yearMonthDayDateTime);
-    broadcast.listen((data) {
+    pickerStream.listen((data) {
       yearMonthDayDateTime = data;
     });
     Future<void> pickerCallback() {
       return showSimpleYearMonthDayPicker(
           context, barrierColor, yearMonthDayController, yearMonthDayDateTime);
     }
-    return (pickerCallback, broadcast);
+    return (pickerCallback, pickerStream);
   }
 }
