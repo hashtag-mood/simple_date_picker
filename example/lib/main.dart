@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime yearMonthDateTime = DateTime.now();
   DateTime yearDateTime = DateTime.now();
   int firstYear = 1950;
+  int lastYear = 2050;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             });
                           },
                           firstYear: firstYear,
-                          lastYear: 2050,
+                          lastYear: lastYear,
                         );
                       },
                     );
@@ -134,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             });
                           },
                           firstYear: firstYear,
-                          lastYear: 2050,
+                          lastYear: lastYear,
                         );
                       },
                     );
@@ -170,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             });
                           },
                           firstYear: firstYear,
-                          lastYear: 2050,
+                          lastYear: lastYear,
                         );
                       },
                     );

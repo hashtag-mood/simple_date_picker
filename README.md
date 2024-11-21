@@ -18,47 +18,66 @@ COMPLETE EXAMPLE is [here](https://github.com/hashtag-mood/simple_date_picker/bl
 
 <b>*SET UP*</b>
 
-Create an instance of SimpleDatePicker and [Records](https://dart.dev/language/records) for each picker
+Create an instance of SimpleDatePicker and define DateTimes for each picker
 
 ```
 SimpleDatePicker simpleDatePicker = SimpleDatePicker();
-(Function, Stream)? yearMonthDayRecord;
-(Function, Stream)? yearMonthRecord;
-(Function, Stream)? yearRecord;
-```
-
-Define each Records by using the method from the simpleDatePicker instance
-
-```
-yearMonthDayRecord = simpleDatePicker.yearMonthDayPicker(
-      context: context, // required argument
-      firstYear: 1950, // initial value: 1900
-      lastYear: 2050, // initial value: 2100
-      barrierColor: Colors.transparent,
-      todayButtonTextStyle: TextStyle(
-        color: Colors.black,
-      ),
-    );
+DateTime yearMonthDayDateTime = DateTime.now();
+DateTime yearMonthDateTime = DateTime.now();
+DateTime yearDateTime = DateTime.now();
+int firstYear = 1950;
+int lastYear = 2050;
 ```
 
 <b>*EXAMPLE*</b>
 
 ```
-GestureDetector(
-              onTap: () {
-                yearMonthDayRecord?.$1.call(); // Call the picker using Function
-              },
-              child: StreamBuilder(
-                stream: yearMonthDayRecord?.$2, // The stream of the picker
-                builder: (context, snapshot) {
-                  return Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      yearMonthDayDateFormat(snapshot.data ?? DateTime.now()),
-                      style: TextStyle(fontSize: 20),
+Align(
+              alignment: Alignment.center,
+              child: TextButton(
+                  onPressed: () async {
+                    await showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return simpleDatePicker.yearMonthDayPicker(
+                          yearMonthDayDateTime: yearMonthDayDateTime,
+                          monthCallback: (int index) {
+                            setState(() {
+                              yearMonthDayDateTime = DateTime(
+                                  yearMonthDayDateTime.year,
+                                  index + 1,
+                                  yearMonthDayDateTime.day);
+                            });
+                          },
+                          dayCallback: (int index) {
+                            setState(() {
+                              yearMonthDayDateTime = DateTime(
+                                  yearMonthDayDateTime.year,
+                                  yearMonthDayDateTime.month,
+                                  index + 1);
+                            });
+                          },
+                          yearCallback: (int index) {
+                            setState(() {
+                              yearMonthDayDateTime = DateTime(
+                                  firstYear + index,
+                                  yearMonthDayDateTime.month,
+                                  yearMonthDayDateTime.day);
+                            });
+                          },
+                          firstYear: firstYear,
+                          lastYear: lastYear,
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    '${yearMonthDayDateTime.year}년 ${yearMonthDayDateTime.month}월 ${yearMonthDayDateTime.day}일',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
                     ),
-                  );
-                },
-              ),
-            ),
+                  )),
+            );
 ```

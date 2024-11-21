@@ -10,3 +10,7 @@
 ## 0.0.3
 
 * Updated SHOWCASE image source.
+
+## 1.0.0
+
+* Refactoring to replace Streams with Callbacks
