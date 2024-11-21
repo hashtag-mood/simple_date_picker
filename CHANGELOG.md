@@ -6,3 +6,7 @@
 
 * Updated ```README.md```.
 * Removed unnecessary code.
+
+## 0.0.3
+
+* Updated SHOWCASE image source.

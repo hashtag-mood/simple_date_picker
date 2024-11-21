@@ -1,25 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_date_picker/cubit/date_cubit.dart';
-import 'package:simple_date_picker/model/date.dart';
 import 'package:simple_date_picker/widget/custom_cupertino_picker.dart';
 
 class SimpleYearMonthDayPickerWidget extends StatefulWidget {
-  final StreamController controller;
+  final DateTime yearMonthDayDateTime;
+  final Function(int) monthCallback;
+  final Function(int) dayCallback;
+  final Function(int) yearCallback;
   final int firstYear;
   final int lastYear;
   final Color? barrierColor;
   final Decoration? decoration;
-  final EdgeInsetsGeometry? padding;
-  final double? width;
-  final double? height;
-  final double? monthWidth;
-  final double? dayWidth;
-  final double? yearWidth;
-  final double? pickerHeight;
+  final EdgeInsetsGeometry padding;
+  final double width;
+  final double height;
+  final double monthWidth;
+  final double dayWidth;
+  final double yearWidth;
+  final double pickerHeight;
   final Decoration? pickerDecoration;
   final Color pickerBackgroundColor;
   final double itemHeight;
@@ -29,8 +27,8 @@ class SimpleYearMonthDayPickerWidget extends StatefulWidget {
   final TextStyle? yearTextStyle;
   final double buttonHeight;
   final double todayButtonWidth;
-  final Decoration? todayButtonDecoration;
   final Color todayButtonColor;
+  final Decoration? todayButtonDecoration;
   final String todayButtonText;
   final TextStyle todayButtonTextStyle;
   final double doneButtonWidth;
@@ -39,16 +37,19 @@ class SimpleYearMonthDayPickerWidget extends StatefulWidget {
   final String doneButtonText;
   final TextStyle doneButtonTextStyle;
 
-  SimpleYearMonthDayPickerWidget({
+  const SimpleYearMonthDayPickerWidget({
     super.key,
-    required this.controller,
+    required this.yearMonthDayDateTime,
+    required this.monthCallback,
+    required this.dayCallback,
+    required this.yearCallback,
     this.firstYear = 1900,
     this.lastYear = 2100,
     this.barrierColor,
     this.decoration,
     this.padding = EdgeInsets.zero,
-    this.width = 370,
-    this.height = 310,
+    this.width = 400,
+    this.height = 350,
     this.monthWidth = 110,
     this.dayWidth = 110,
     this.yearWidth = 150,
@@ -61,16 +62,17 @@ class SimpleYearMonthDayPickerWidget extends StatefulWidget {
     this.dayTextStyle,
     this.yearTextStyle,
     this.buttonHeight = 60,
-    this.todayButtonWidth = 185,
+    this.todayButtonWidth = 200,
     this.todayButtonColor = Colors.white,
     this.todayButtonDecoration,
     this.todayButtonText = 'TODAY',
-    this.doneButtonWidth = 185,
+    this.todayButtonTextStyle = const TextStyle(color: Colors.black),
+    this.doneButtonWidth = 200,
     this.doneButtonColor = Colors.white,
     this.doneButtonDecoration,
     this.doneButtonText = 'DONE',
-  })  : todayButtonTextStyle = TextStyle(color: Colors.black),
-        doneButtonTextStyle = TextStyle(color: Colors.black);
+    this.doneButtonTextStyle = const TextStyle(color: Colors.black),
+  });
 
   @override
   State<SimpleYearMonthDayPickerWidget> createState() => _SimpleYearMonthDayPickerWidgetState();
@@ -79,10 +81,9 @@ class SimpleYearMonthDayPickerWidget extends StatefulWidget {
 class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPickerWidget> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DateCubit, Date>(builder: (context, state) {
-      int selectedMonth = state.dateTime.month;
-      int selectedYear = state.dateTime.year;
-      int selectedDay = state.dateTime.day;
+      int selectedMonth = widget.yearMonthDayDateTime.month;
+      int selectedYear = widget.yearMonthDayDateTime.year;
+      int selectedDay = widget.yearMonthDayDateTime.day;
       int yearIndex = selectedYear - widget.firstYear;
       FixedExtentScrollController yearController =
           FixedExtentScrollController(initialItem: yearIndex);
@@ -109,11 +110,7 @@ class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPicke
                       backgroundColor: widget.pickerBackgroundColor,
                       itemExtent: widget.itemHeight,
                       controller: monthController,
-                      onChangedCallback: (int index) {
-                        selectedMonth = index + 1;
-                        context.read<DateCubit>().updateMonth(selectedMonth);
-                        widget.controller.add(DateTime(selectedYear, selectedMonth, selectedDay));
-                      },
+                      onChangedCallback: widget.monthCallback,
                       dateTimeList: List.generate(
                         12,
                         (index) {
@@ -137,11 +134,7 @@ class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPicke
                       backgroundColor: widget.pickerBackgroundColor,
                       itemExtent: widget.itemHeight,
                       controller: dayController,
-                      onChangedCallback: (int index) {
-                        selectedDay = index + 1;
-                        context.read<DateCubit>().updateDay(selectedDay);
-                        widget.controller.add(DateTime(selectedYear, selectedMonth, selectedDay));
-                      },
+                      onChangedCallback: widget.dayCallback,
                       dateTimeList: List.generate(
                         31,
                         (index) {
@@ -165,11 +158,7 @@ class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPicke
                       backgroundColor: widget.pickerBackgroundColor,
                       itemExtent: widget.itemHeight,
                       controller: yearController,
-                      onChangedCallback: (int index) {
-                        selectedYear = widget.firstYear + index;
-                        context.read<DateCubit>().updateYear(selectedYear);
-                        widget.controller.add(DateTime(selectedYear, selectedMonth, selectedDay));
-                      },
+                      onChangedCallback: widget.yearCallback,
                       dateTimeList: List.generate(
                         widget.lastYear - widget.firstYear + 1,
                         (index) {
@@ -200,13 +189,6 @@ class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPicke
                         style: widget.todayButtonTextStyle,
                       ),
                       onPressed: () {
-                        context
-                            .read<DateCubit>()
-                            .updateYear(DateTime.now().year);
-                        context
-                            .read<DateCubit>()
-                            .updateMonth(DateTime.now().month);
-                        context.read<DateCubit>().updateDay(DateTime.now().day);
                         yearController
                             .jumpToItem(DateTime.now().year - widget.firstYear);
                         monthController.jumpToItem(DateTime.now().month - 1);
@@ -236,6 +218,5 @@ class _SimpleYearMonthDayPickerWidgetState extends State<SimpleYearMonthDayPicke
           ),
         ),
       );
-    });
   }
 }

@@ -1,144 +1,209 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'package:flutter/cupertino.dart';
-import 'package:simple_date_picker/utils/simple_year_month_day_picker.dart';
-import 'package:simple_date_picker/utils/simple_year_month_picker.dart';
-import 'package:simple_date_picker/utils/simple_year_picker.dart';
-
-export 'utils/simple_year_month_day_picker.dart';
-export 'utils//simple_year_month_picker.dart';
-export 'utils/simple_year_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:simple_date_picker/widget/simple_year_month_day_picker_widget.dart';
+import 'package:simple_date_picker/widget/simple_year_month_picker_widget.dart';
+import 'package:simple_date_picker/widget/simple_year_picker_widget.dart';
 
 class SimpleDatePicker {
-  StreamController<DateTime> yearMonthDayController = StreamController<DateTime>();
   StreamController<DateTime> yearMonthController = StreamController<DateTime>();
-  StreamController<DateTime> yearController = StreamController<DateTime>();
-
-  DateTime yearMonthDayDateTime = DateTime.now();
   DateTime yearMonthDateTime = DateTime.now();
-  DateTime yearDateTime = DateTime.now();
 
-  (Function, Stream) yearPicker(
-      {required final BuildContext context,
+  Widget yearPicker(
+      {required final DateTime yearDateTime,
+      required final Function(int) yearCallback,
       final int firstYear = 1900,
       final int lastYear = 2100,
-      final Color barrierColor = kCupertinoModalBarrierColor,
+      final Color? barrierColor = kCupertinoModalBarrierColor,
       final Decoration? decoration,
-      final EdgeInsetsGeometry? padding,
-      final double? width,
-      final double? height,
+      final EdgeInsetsGeometry padding = EdgeInsets.zero,
+      final double width = 400,
+      final double height = 350,
       final double? yearWidth,
-      final double? yearHeight,
+      final double yearHeight = 250,
       final Decoration? pickerDecoration,
-      final Color? pickerBackgroundColor,
-      final double? itemHeight,
-      final Alignment? textAlignment,
+      final Color pickerBackgroundColor = Colors.white,
+      final double itemHeight = 60,
+      final Alignment textAlignment = Alignment.center,
       final TextStyle? textStyle,
-      final double? buttonHeight,
-      final double? todayButtonWidth,
-        final Color? todayButtonColor,
+      final double buttonHeight = 60,
+      final double todayButtonWidth = 200,
+      final Color todayButtonColor = Colors.white,
       final Decoration? todayButtonDecoration,
-      final String? todayButtonText,
-      final TextStyle? todayButtonTextStyle,
-      final double? doneButtonWidth,
-        final Color? doneButtonColor,
-        final Decoration? doneButtonDecoration,
-      final String? doneButtonText,
-      final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> pickerStream = yearController.stream.asBroadcastStream();
-    yearController.add(yearDateTime);
-    pickerStream.listen((data) {
-      yearDateTime = data;
-    });
-    Future<void> pickerCallback() {
-      return showSimpleYearPicker(
-          context, barrierColor, yearController, yearDateTime);
-    }
-    return (pickerCallback, pickerStream);
+      final String todayButtonText = 'TODAY',
+      final TextStyle? todayButtonTextStyle =
+          const TextStyle(color: Colors.black),
+      final double doneButtonWidth = 200,
+      final Color doneButtonColor = Colors.white,
+      final Decoration? doneButtonDecoration,
+      final String doneButtonText = 'DONE',
+      final TextStyle? doneButtonTextStyle =
+          const TextStyle(color: Colors.black)}) {
+    return SimpleYearPickerWidget(
+      onChangedCallback: yearCallback,
+      yearDateTime: yearDateTime,
+      firstYear: firstYear,
+      lastYear: lastYear,
+      barrierColor: barrierColor,
+      decoration: decoration,
+      padding: padding,
+      width: width,
+      height: height,
+      yearWidth: yearWidth,
+      yearHeight: yearHeight,
+      pickerDecoration: pickerDecoration,
+      pickerBackgroundColor: pickerBackgroundColor,
+      itemHeight: itemHeight,
+      textAlignment: textAlignment,
+      textStyle: textStyle,
+      buttonHeight: buttonHeight,
+      todayButtonWidth: todayButtonWidth,
+      todayButtonColor: todayButtonColor,
+      todayButtonDecoration: todayButtonDecoration,
+      todayButtonText: todayButtonText,
+      todayButtonTextStyle: todayButtonTextStyle,
+      doneButtonWidth: doneButtonWidth,
+      doneButtonColor: doneButtonColor,
+      doneButtonDecoration: doneButtonDecoration,
+      doneButtonText: doneButtonText,
+      doneButtonTextStyle: doneButtonTextStyle,
+    );
   }
 
-  (Function, Stream) yearMonthPicker(
-      {required final BuildContext context,
-      final int firstYear = 1900,
-      final int lastYear = 2100,
-      final Color barrierColor = kCupertinoModalBarrierColor,
-      final Decoration? decoration,
-      final EdgeInsetsGeometry? padding,
-      final double? width,
-      final double? height,
-      final double? monthWidth,
-      final double? yearWidth,
-      final double? pickerHeight,
-      final Decoration? pickerDecoration,
-      final Color? pickerBackgroundColor,
-      final double? itemHeight,
-      final Alignment? textAlignment,
-      final TextStyle? monthTextStyle,
-      final TextStyle? yearTextStyle,
-      final double? buttonHeight,
-      final double? todayButtonWidth,
-        final Color? todayButtonColor,
-      final Decoration? todayButtonDecoration,
-      final String? todayButtonText,
-      final TextStyle? todayButtonTextStyle,
-      final double? doneButtonWidth,
-        final Color? doneButtonColor,
-        final Decoration? doneButtonDecoration,
-      final String? doneButtonText,
-      final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> pickerStream = yearMonthController.stream.asBroadcastStream();
-    yearMonthController.add(yearMonthDateTime);
-    pickerStream.listen((data) {
-      yearMonthDateTime = data;
-    });
-    Future<void> pickerCallback() {
-      return showSimpleYearMonthPicker(
-          context, barrierColor, yearMonthController, yearMonthDateTime);
-    }
-    return (pickerCallback, pickerStream);
+  Widget yearMonthPicker(
+      {required final DateTime yearMonthDateTime,
+  required final Function(int) monthCallback,
+  required final Function(int) yearCallback,
+  final int firstYear = 1900,
+  final int lastYear = 2100,
+  final Color barrierColor = kCupertinoModalBarrierColor,
+  final Decoration? decoration,
+  final EdgeInsetsGeometry padding = EdgeInsets.zero,
+  final double width = 400,
+  final double height = 350,
+  final double monthWidth = 200,
+  final double yearWidth = 200,
+  final double pickerHeight = 250,
+  final Decoration? pickerDecoration,
+  final Color pickerBackgroundColor = Colors.white,
+  final double itemHeight = 60,
+  final Alignment textAlignment = Alignment.center,
+  final TextStyle? monthTextStyle,
+  final TextStyle? yearTextStyle,
+  final double buttonHeight = 60,
+  final double todayButtonWidth = 200,
+  final Color todayButtonColor = Colors.white,
+  final Decoration? todayButtonDecoration,
+  final String todayButtonText = 'TODAY',
+  final TextStyle? todayButtonTextStyle = const TextStyle(color: Colors.black),
+  final double doneButtonWidth = 200,
+  final Color doneButtonColor = Colors.white,
+  final Decoration? doneButtonDecoration,
+  final String doneButtonText = 'DONE',
+  final TextStyle? doneButtonTextStyle = const TextStyle(color: Colors.black),}) {
+    return SimpleYearMonthPickerWidget(
+    yearMonthDateTime: yearMonthDateTime,
+    monthCallback: monthCallback,
+      yearCallback: yearCallback,
+      firstYear: firstYear,
+      lastYear: lastYear,
+      barrierColor: barrierColor,
+      decoration: decoration,
+      padding: padding,
+      width: width,
+      height: height,
+      monthWidth: monthWidth,
+      yearWidth: yearWidth,
+      pickerHeight: pickerHeight,
+      pickerDecoration: pickerDecoration,
+      pickerBackgroundColor: pickerBackgroundColor,
+      itemHeight: itemHeight,
+      textAlignment: textAlignment,
+      monthTextStyle: monthTextStyle,
+      yearTextStyle: yearTextStyle,
+      buttonHeight: buttonHeight,
+      todayButtonWidth: todayButtonWidth,
+      todayButtonColor: todayButtonColor,
+      todayButtonDecoration: todayButtonDecoration,
+      todayButtonText: todayButtonText,
+      todayButtonTextStyle: todayButtonTextStyle,
+      doneButtonWidth: doneButtonWidth,
+      doneButtonColor: doneButtonColor,
+      doneButtonDecoration: doneButtonDecoration,
+      doneButtonText: doneButtonText,
+      doneButtonTextStyle: doneButtonTextStyle,
+    );
   }
 
-  (Function, Stream) yearMonthDayPicker(
-      {required final BuildContext context,
-      final int firstYear = 1900,
-      final int lastYear = 2100,
-      final Color barrierColor = kCupertinoModalBarrierColor,
-      final Decoration? decoration,
-      final EdgeInsetsGeometry? padding,
-      final double? width,
-      final double? height,
-      final double? monthWidth,
-      final double? dayWidth,
-      final double? yearWidth,
-      final double? pickerHeight,
-      final Decoration? pickerDecoration,
-      final Color? pickerBackgroundColor,
-      final double? itemHeight,
-      final Alignment? textAlignment,
-      final TextStyle? monthTextStyle,
-      final TextStyle? dayTextStyle,
-      final TextStyle? yearTextStyle,
-      final double? buttonHeight,
-      final double? todayButtonWidth,
-        final Color? todayButtonColor,
-      final Decoration? todayButtonDecoration,
-      final String? todayButtonText,
-      final TextStyle? todayButtonTextStyle,
-      final double? doneButtonWidth,
-        final Color? doneButtonColor,
+  Widget yearMonthDayPicker(
+      {required final DateTime yearMonthDayDateTime,
+        required final Function(int) monthCallback,
+        required final Function(int) dayCallback,
+        required final Function(int) yearCallback,
+        final int firstYear = 1900,
+        final int lastYear = 2100,
+        final Color? barrierColor,
+        final Decoration? decoration,
+        final EdgeInsetsGeometry padding = EdgeInsets.zero,
+        final double width = 400,
+        final double height = 350,
+        final double monthWidth = 120,
+        final double dayWidth = 120,
+        final double yearWidth = 160,
+        final double pickerHeight = 250,
+        final Decoration? pickerDecoration,
+        final Color pickerBackgroundColor = Colors.white,
+        final double itemHeight = 60,
+        final Alignment textAlignment = Alignment.center,
+        final TextStyle? monthTextStyle,
+        final TextStyle? dayTextStyle,
+        final TextStyle? yearTextStyle,
+        final double buttonHeight = 60,
+        final double todayButtonWidth = 200,
+        final Color todayButtonColor = Colors.white,
+        final Decoration? todayButtonDecoration,
+        final String todayButtonText = 'TODAY',
+        final TextStyle todayButtonTextStyle = const TextStyle(color: Colors.black),
+        final double doneButtonWidth = 200,
+        final Color doneButtonColor = Colors.white,
         final Decoration? doneButtonDecoration,
-      final String? doneButtonText,
-      final TextStyle? doneButtonTextStyle}) {
-    Stream<DateTime> pickerStream = yearMonthDayController.stream.asBroadcastStream();
-    yearMonthDayController.add(yearMonthDayDateTime);
-    pickerStream.listen((data) {
-      yearMonthDayDateTime = data;
-    });
-    Future<void> pickerCallback() {
-      return showSimpleYearMonthDayPicker(
-          context, barrierColor, yearMonthDayController, yearMonthDayDateTime);
-    }
-    return (pickerCallback, pickerStream);
+        final String doneButtonText = 'DONE',
+        final TextStyle doneButtonTextStyle = const TextStyle(color: Colors.black),}) {
+    return SimpleYearMonthDayPickerWidget(
+      yearMonthDayDateTime: yearMonthDayDateTime,
+      monthCallback: monthCallback,
+      dayCallback: dayCallback,
+      yearCallback: yearCallback,
+      firstYear: firstYear,
+      lastYear: lastYear,
+      barrierColor: barrierColor,
+      decoration: decoration,
+      padding: padding,
+      width: width,
+      height: height,
+      monthWidth: monthWidth,
+      dayWidth: dayWidth,
+      yearWidth: yearWidth,
+      pickerHeight: pickerHeight,
+      pickerDecoration: pickerDecoration,
+      pickerBackgroundColor: pickerBackgroundColor,
+      itemHeight: itemHeight,
+      textAlignment: textAlignment,
+      monthTextStyle: monthTextStyle,
+      dayTextStyle: dayTextStyle,
+      yearTextStyle: yearTextStyle,
+      buttonHeight: buttonHeight,
+      todayButtonWidth: todayButtonWidth,
+      todayButtonColor: todayButtonColor,
+      todayButtonDecoration: todayButtonDecoration,
+      todayButtonText: todayButtonText,
+      todayButtonTextStyle: todayButtonTextStyle,
+      doneButtonWidth: doneButtonWidth,
+      doneButtonColor: doneButtonColor,
+      doneButtonDecoration: doneButtonDecoration,
+      doneButtonText: doneButtonText,
+      doneButtonTextStyle: doneButtonTextStyle,
+    );
   }
 }
