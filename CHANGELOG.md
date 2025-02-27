@@ -13,4 +13,8 @@
 
 ## 1.0.0
 
-* Refactoring to replace Streams with Callbacks
+* Refactoring to replace Streams with Callbacks.
+
+## 1.0.1
+
+* Added looping and barrierColor member variables.
