@@ -1,4 +1,6 @@
+import 'package:example/theme.dart';
 import 'package:example/utils/safe_area_height.dart';
+import 'package:example/widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_date_picker/simple_date_picker.dart';
@@ -44,157 +46,197 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      appBar: PreferredSize(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
           preferredSize: Size.fromHeight(widget.appBarHeight),
           child: AppBar(
+            backgroundColor: Colors.white,
             title: const Align(
               alignment: Alignment.center,
-              child: Text('SIMPLE DATE PICKER DEMO'),
+              child: Text(
+                'SIMPLE DATE PICKER DEMO',
+                style: TextStyle(height: 1),
+              ),
             ),
-          )),
-      body: SizedBox(
-        height: safeAreaHeight(context) - widget.appBarHeight,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                  onPressed: () async {
-                    await showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) {
-                        return simpleDatePicker.yearMonthDayPicker(
-                          yearMonthDayDateTime: yearMonthDayDateTime,
-                          monthCallback: (int index) {
-                            setState(() {
-                              yearMonthDayDateTime = DateTime(
-                                  yearMonthDayDateTime.year,
-                                  index + 1,
-                                  yearMonthDayDateTime.day);
-                            });
-                          },
-                          dayCallback: (int index) {
-                            setState(() {
-                              yearMonthDayDateTime = DateTime(
-                                  yearMonthDayDateTime.year,
-                                  yearMonthDayDateTime.month,
-                                  index + 1);
-                            });
-                          },
-                          yearCallback: (int index) {
-                            setState(() {
-                              yearMonthDayDateTime = DateTime(
-                                  firstYear + index,
-                                  yearMonthDayDateTime.month,
-                                  yearMonthDayDateTime.day);
-                            });
-                          },
-                          firstYear: firstYear,
-                          lastYear: lastYear,
-                        );
+            shape: Border.symmetric(
+              horizontal: BorderSide(),
+            ),
+          ),
+        ),
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              datePickerWidget(
+                  context: context,
+                  color: lightGreenColor,
+                  containerBorder: Border(
+                    bottom: BorderSide(),
+                  ),
+                  pickerTypeDescription: 'YEAR MONTH DAY PICKER',
+                  pickerType: (context) {
+                    return simpleDatePicker.yearMonthDayPicker(
+                      yearMonthDayDateTime: yearMonthDayDateTime,
+                      monthCallback: (int index) {
+                        setState(() {
+                          yearMonthDayDateTime = DateTime(
+                              yearMonthDayDateTime.year,
+                              index + 1,
+                              yearMonthDayDateTime.day);
+                        });
                       },
+                      dayCallback: (int index) {
+                        setState(() {
+                          yearMonthDayDateTime = DateTime(
+                              yearMonthDayDateTime.year,
+                              yearMonthDayDateTime.month,
+                              index + 1);
+                        });
+                      },
+                      yearCallback: (int index) {
+                        setState(() {
+                          yearMonthDayDateTime = DateTime(
+                              firstYear + index,
+                              yearMonthDayDateTime.month,
+                              yearMonthDayDateTime.day);
+                        });
+                      },
+                      firstYear: firstYear,
+                      lastYear: lastYear,
+                      pickerBackgroundColor: lightGreenColor,
+                      todayButtonColor: lightGreenColor,
+                      doneButtonColor: lightGreenColor,
+                      width: 402,
+                      height: 312,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      pickerDecoration: BoxDecoration(
+                        border: Border.symmetric(
+                          horizontal: BorderSide(),
+                        ),
+                      ),
+                      todayButtonDecoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(),
+                          right: BorderSide(),
+                        ),
+                      ),
+                      doneButtonDecoration: BoxDecoration(
+                        border: Border(
+                          top: BorderSide(),
+                        ),
+                      ),
                     );
                   },
-                  child: Text(
-                    '${yearMonthDayDateTime.year}년 ${yearMonthDayDateTime.month}월 ${yearMonthDayDateTime.day}일',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
+                  dateTime:
+                      '${yearMonthDayDateTime.year}년 ${yearMonthDayDateTime.month}월 ${yearMonthDayDateTime.day}일'),
+              Expanded(
+                child: SizedBox.shrink(),
+              ),
+              datePickerWidget(
+                context: context,
+                color: lightYellowColor,
+                containerBorder: Border.symmetric(
+                  horizontal: BorderSide(),
+                ),
+                pickerTypeDescription: 'YEAR MONTH PICKER',
+                pickerType: (context) {
+                  return simpleDatePicker.yearMonthPicker(
+                    yearMonthDateTime: yearMonthDateTime,
+                    monthCallback: (int index) {
+                      setState(() {
+                        yearMonthDateTime =
+                            DateTime(yearMonthDateTime.year, index + 1);
+                      });
+                    },
+                    yearCallback: (int index) {
+                      setState(() {
+                        yearMonthDateTime = DateTime(
+                            firstYear + index, yearMonthDateTime.month);
+                      });
+                    },
+                    firstYear: firstYear,
+                    lastYear: lastYear,
+                    pickerBackgroundColor: lightYellowColor,
+                    todayButtonColor: lightYellowColor,
+                    doneButtonColor: lightYellowColor,
+                    width: 402,
+                    height: 312,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
                     ),
-                  )),
-            ),
-            const Text(
-              'YEAR MONTH DAY PICKER',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                  onPressed: () async {
-                    await showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) {
-                        return simpleDatePicker.yearMonthPicker(
-                          yearMonthDateTime: yearMonthDateTime,
-                          monthCallback: (int index) {
-                            setState(() {
-                              yearMonthDateTime =
-                                  DateTime(yearMonthDateTime.year, index + 1);
-                            });
-                          },
-                          yearCallback: (int index) {
-                            setState(() {
-                              yearMonthDateTime = DateTime(
-                                  firstYear + index, yearMonthDateTime.month);
-                            });
-                          },
-                          firstYear: firstYear,
-                          lastYear: lastYear,
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
+                    pickerDecoration: BoxDecoration(
+                      border: Border.symmetric(
+                        horizontal: BorderSide(),
+                      ),
+                    ),
+                    todayButtonDecoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(),
+                        top: BorderSide(),
+                      ),
+                    ),
+                    doneButtonDecoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(),
+                      ),
+                    ),
+                  );
+                },
+                dateTime:
                     '${yearMonthDateTime.year}년 ${yearMonthDateTime.month}월',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
+              ),
+              datePickerWidget(
+                context: context,
+                color: lightPinkColor,
+                containerBorder: Border(
+                  bottom: BorderSide(),
+                ),
+                pickerTypeDescription: 'YEAR PICKER',
+                pickerType: (context) {
+                  return simpleDatePicker.yearPicker(
+                    yearDateTime: yearDateTime,
+                    yearCallback: (int index) {
+                      setState(() {
+                        yearDateTime = DateTime(firstYear + index);
+                      });
+                    },
+                    firstYear: firstYear,
+                    lastYear: lastYear,
+                    pickerBackgroundColor: lightPinkColor,
+                    todayButtonColor: lightPinkColor,
+                    doneButtonColor: lightPinkColor,
+                    width: 402,
+                    height: 312,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
                     ),
-                  )),
-            ),
-            const Text(
-              'YEAR MONTH PICKER',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                  onPressed: () async {
-                    await showCupertinoModalPopup(
-                      context: context,
-                      builder: (context) {
-                        return simpleDatePicker.yearPicker(
-                          yearDateTime: yearDateTime,
-                          yearCallback: (int index) {
-                            setState(() {
-                              yearDateTime = DateTime(firstYear + index);
-                            });
-                          },
-                          firstYear: firstYear,
-                          lastYear: lastYear,
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
-                    '${yearDateTime.year}년',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
+                    pickerDecoration: BoxDecoration(
+                      border: Border.symmetric(
+                        horizontal: BorderSide(),
+                      ),
                     ),
-                  )),
-            ),
-            const Text(
-              'YEAR PICKER',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20),
-            ),
-          ],
+                    todayButtonDecoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(),
+                        top: BorderSide(),
+                      ),
+                    ),
+                    doneButtonDecoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(),
+                      ),
+                    ),
+                  );
+                },
+                dateTime: '${yearDateTime.year}년',
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

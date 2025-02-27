@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class CustomCupertinoPicker extends StatelessWidget {
   final Decoration? decoration;
+  final bool looping;
   final Color backgroundColor;
   final double itemExtent;
   final FixedExtentScrollController controller;
@@ -11,6 +12,7 @@ class CustomCupertinoPicker extends StatelessWidget {
   const CustomCupertinoPicker(
       {super.key,
         this.decoration,
+        required this.looping,
         required this.backgroundColor,
         required this.itemExtent,
         required this.onChangedCallback,
@@ -23,6 +25,7 @@ class CustomCupertinoPicker extends StatelessWidget {
       selectionOverlay: Container(
         decoration: decoration,
       ),
+      looping: looping,
       backgroundColor: backgroundColor,
       scrollController: controller,
       itemExtent: itemExtent,

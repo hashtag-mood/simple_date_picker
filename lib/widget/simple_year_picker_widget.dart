@@ -7,8 +7,8 @@ class SimpleYearPickerWidget extends StatefulWidget {
   final Function(int) onChangedCallback;
   final int firstYear;
   final int lastYear;
-  final Color? barrierColor;
   final Decoration? decoration;
+  final bool looping;
   final EdgeInsetsGeometry padding;
   final double width;
   final double height;
@@ -37,8 +37,8 @@ class SimpleYearPickerWidget extends StatefulWidget {
     required this.onChangedCallback,
     this.firstYear = 1900,
     this.lastYear = 2100,
-    this.barrierColor,
     this.decoration,
+    this.looping = true,
     this.padding = EdgeInsets.zero,
     this.width = 400,
     this.height = 350,
@@ -87,6 +87,7 @@ class _SimpleYearPickerWidgetState extends State<SimpleYearPickerWidget> {
               child: CustomCupertinoPicker(
                 // year
                 decoration: widget.pickerDecoration,
+                looping: widget.looping,
                 backgroundColor: widget.pickerBackgroundColor,
                 itemExtent: widget.itemHeight,
                 controller: yearController,
