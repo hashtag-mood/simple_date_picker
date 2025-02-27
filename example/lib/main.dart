@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               datePickerWidget(
                   context: context,
+                  barrierColor: Colors.transparent,
                   color: lightGreenColor,
                   containerBorder: Border(
                     bottom: BorderSide(),
@@ -137,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               datePickerWidget(
                 context: context,
+                barrierColor: Colors.transparent,
                 color: lightYellowColor,
                 containerBorder: Border.symmetric(
                   horizontal: BorderSide(),
@@ -190,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               datePickerWidget(
                 context: context,
+                barrierColor: Colors.transparent,
                 color: lightPinkColor,
                 containerBorder: Border(
                   bottom: BorderSide(),

@@ -7,6 +7,7 @@ Widget datePickerWidget(
     {required BuildContext context,
     required Color color,
     required Border containerBorder,
+      Color barrierColor = kCupertinoModalBarrierColor,
     required String pickerTypeDescription,
     required Widget Function(BuildContext) pickerType,
     required String dateTime}) {
@@ -28,7 +29,7 @@ Widget datePickerWidget(
         TextButton(
           onPressed: () async {
             await showCupertinoModalPopup(
-              barrierColor: Colors.transparent,
+              barrierColor: barrierColor,
               context: context,
               builder: pickerType,
             );
