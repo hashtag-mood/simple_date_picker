@@ -18,3 +18,7 @@
 ## 1.0.1
 
 * Added looping and barrierColor member variables.
+
+## 1.0.2
+
+* Updated SHOWCASE.gif to upscaled version.
